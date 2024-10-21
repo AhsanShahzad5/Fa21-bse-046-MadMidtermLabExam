@@ -1,28 +1,43 @@
-import { StyleSheet, View , Text } from 'react-native';
+//best practice is having colors of our code into a spearate file so we can re-use them
+import products from '@/assets/data/products';
+import Colors from '@/src/constants/Colors';
+import { StyleSheet, View , Text , Image } from 'react-native';
 
-//import EditScreenInfo from '@/src/components/EditScreenInfo';
-//import { Text, View } from '@/src/components/Themed';
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.Content}> Hello World </Text>
+      <Text style={styles.title}> {products[0].name} </Text>
+      <Text style={styles.price}> {products[0].price} </Text>
+      <Image 
+      source={{uri:products[0].image}}
+      style={styles.image}
+        resizeMode="contain"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 10,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+    alignSelf: 'center',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color:'white'
+    fontWeight: '600',
+    fontSize: 18,
+    marginVertical: 10,
   },
-  Content : {
-     color:'white'
+  price: {
+    color: Colors.light.tint,
+    fontWeight: 'bold',
+    marginTop: 'auto',
   },
 });
