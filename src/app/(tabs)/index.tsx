@@ -1,12 +1,12 @@
 //best practice is having colors of our code into a spearate file so we can re-use them
 import products from '@/assets/data/products';
 import Colors from '@/src/constants/Colors';
-import { StyleSheet, View , Text , Image } from 'react-native';
+import { StyleSheet, View , Text , Image, ScrollView } from 'react-native';
 
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}> {products[0].name} </Text>
       <Text style={styles.price}> {products[0].price} </Text>
       <Image 
@@ -14,7 +14,7 @@ export default function TabOneScreen() {
       style={styles.image}
         resizeMode="contain"
       />
-    </View>
+    </ScrollView>
   );
 }
 
