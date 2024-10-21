@@ -1,43 +1,106 @@
 //best practice is having colors of our code into a spearate file so we can re-use them
 import products from '@/assets/data/products';
 import Colors from '@/src/constants/Colors';
-import { StyleSheet, View , Text , Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import UseGetApi from '../hooks/UseGetApi';
+import ProductListItem from '@/src/components/ProductListItem';
+const defaultImageUrl = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
+const ProductCard = ({ item }: any) => {
 
-export default function TabOneScreen() {
+  const isValidImageUrl = (image: any) => {
+    return image && image.startsWith('http');
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}> {products[0].name} </Text>
-      <Text style={styles.price}> {products[0].price} </Text>
-      <Image 
-      source={{uri:products[0].image}}
-      style={styles.image}
+    <TouchableOpacity style={styles.cardContainer}>
+      <Image
+        source={{ uri: isValidImageUrl(item.image) ? item.image : defaultImageUrl }}
+        style={styles.productImage}
         resizeMode="contain"
       />
-    </ScrollView>
+      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.productPrice}>{item.price}</Text>
+    </TouchableOpacity>
+  );
+};
+
+export default function TabOneScreen() {
+
+  // const url = 'https://simple-grocery-store-api.online/products'
+  const url = 'http://localhost:3001/products'
+  const { data } = UseGetApi(url);
+
+
+
+
+  return (
+    <FlatList
+
+      data={data}
+      renderItem={({ item }) => <ProductCard item={item} />}
+      numColumns={2}
+      contentContainerStyle={styles.listContainer}
+
+    />
   );
 }
 
+// const styles = StyleSheet.create({
+//   container: {
+//     backgroundColor: 'white',
+//     borderRadius: 20,
+//     padding: 10,
+//     overflow: 'hidden',
+//   },
+//   image: {
+//     width: '100%',
+//     aspectRatio: 1,
+//     alignSelf: 'center',
+//   },
+//   title: {
+//     fontWeight: '600',
+//     fontSize: 18,
+//     marginVertical: 10,
+//   },
+//   price: {
+//     color: Colors.light.tint,
+//     fontWeight: 'bold',
+//     marginTop: 'auto',
+//   },
+// });
+
+
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 10,
-    overflow: 'hidden',
+  listContainer: {
+    paddingHorizontal: 10,
+    paddingTop: 10,
   },
-  image: {
-    width: '100%',
-    aspectRatio: 1,
-    alignSelf: 'center',
+  cardContainer: {
+    backgroundColor: '#fff',
+    flex: 1,
+    margin: 10,
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
-  title: {
-    fontWeight: '600',
-    fontSize: 18,
-    marginVertical: 10,
+  productImage: {
+    width: 60,
+    height: 60,
+    marginBottom: 10,
   },
-  price: {
-    color: Colors.light.tint,
+  productName: {
+    fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 'auto',
+    marginBottom: 5,
+  },
+  productPrice: {
+    fontSize: 14,
+    color: '#888',
   },
 });
