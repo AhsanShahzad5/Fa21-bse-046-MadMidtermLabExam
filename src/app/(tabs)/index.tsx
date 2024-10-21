@@ -4,6 +4,7 @@ import Colors from '@/src/constants/Colors';
 import { StyleSheet, View, Text, Image, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import UseGetApi from '../hooks/UseGetApi';
 import ProductListItem from '@/src/components/ProductListItem';
+import HeaderAndFilters from '@/src/components/Header';
 const defaultImageUrl = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 const ProductCard = ({ item }: any) => {
@@ -20,7 +21,8 @@ const ProductCard = ({ item }: any) => {
         resizeMode="contain"
       />
       <Text style={styles.productName}>{item.name}</Text>
-      <Text style={styles.productPrice}>{item.price}</Text>
+      <Text style={styles.productPrice}>{item.category}</Text>
+      <Text style={styles.productPrice}>Available : {item.inStock.toString()}</Text>
     </TouchableOpacity>
   );
 };
@@ -35,14 +37,17 @@ export default function TabOneScreen() {
 
 
   return (
-    <FlatList
+    <View>
+      <HeaderAndFilters />
+      <FlatList
 
-      data={data}
-      renderItem={({ item }) => <ProductCard item={item} />}
-      numColumns={2}
-      contentContainerStyle={styles.listContainer}
+        data={data}
+        renderItem={({ item }) => <ProductCard item={item} />}
+        numColumns={2}
+        contentContainerStyle={styles.listContainer}
 
-    />
+      />
+    </View>
   );
 }
 
